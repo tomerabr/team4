@@ -16,7 +16,7 @@ var INSERT_SUCCESS = ""
 var UPDATE_SUCCESS = ""
 var DELETE_SUCCESS = ""
 
-func Select(table_name string, cols []string, conditions string, db *sql.DB) *sql.Row {
+func Select(table_name string, cols []string, conditions string, db *sql.DB) (*sql.Rows, string) {
 	cols_string := strings.Join(cols, ", ")	
 	query 		:= fmt.Sprintf(SELECT_QUERY, cols_string, table_name, conditions)
 
@@ -25,10 +25,10 @@ func Select(table_name string, cols []string, conditions string, db *sql.DB) *sq
 	defer rows.Close()
 
 	if err != nil {
-		return err
+		return rows, err.Error()
 	}
 
-	return rows
+	return rows, ""
 }
 
 func Insert(table_name string, cols []string, values []string, db *sql.DB) string {
@@ -50,12 +50,12 @@ func Insert(table_name string, cols []string, values []string, db *sql.DB) strin
 }
 
 func makeValueSetString(cols []string, newVals []string) string {
-	valueSetList = make([]string, len(cols))
-	for _, i := range cols {
-		set_str := cols[i] + " = " + newVals[i])
-		append(valueSetList, set_str)
+	valueSetList := make([]string, len(cols))
+	for i := range cols {
+		set_str := cols[i] + " = " + newVals[i]
+		valueSetList = append(valueSetList, set_str)
 	}
-	valuesSetStr := strings.Join(set_str, ", ")
+	valuesSetStr := strings.Join(valueSetList, ", ")
 
 	return valuesSetStr
 }
@@ -68,7 +68,7 @@ func Update(table_name string, cols []string, newVals []string, conditions strin
 	newValsSet := makeValueSetString(cols, newVals)
 	query 	   := fmt.Sprintf(UPDATE_QUERY, table_name, newValsSet, conditions)
 
-	_, err = db.Exec(query)
+	_, err := db.Exec(query)
 
 	if err != nil {
 		return err.Error()
@@ -80,7 +80,7 @@ func Update(table_name string, cols []string, newVals []string, conditions strin
 func Delete(table_name string, conditions string, db *sql.DB) string {
 	query := fmt.Sprintf(DELETE_QUERY, table_name, conditions)
 
-	_, err = db.Exec(query)
+	_, err := db.Exec(query)
 
 	if err != nil {
 		return err.Error()
