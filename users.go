@@ -11,7 +11,7 @@ type User struct {
 	Capsule_ID 	string `json:"capsule_ID"`
 	Permissions []bool `json:"permissions"`
 	Admin 		[]bool `json:"admin"`
-	TimeCreated string `json:"time"`
+	TimeCreated time.Time `json:"time"`
 }
 
 type Space struct {
