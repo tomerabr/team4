@@ -17,7 +17,7 @@ var UPDATE_SUCCESS = ""
 var DELETE_SUCCESS = ""
 
 func Select(table_name string, cols []string, conditions string, db *sql.DB) *sql.Row {
-	cols_string := strings.join(cols, ", ")	
+	cols_string := strings.Join(cols, ", ")	
 	query 		:= fmt.Sprintf(SELECT_QUERY, cols_string, table_name, conditions)
 
 	rows, err := db.Query(query)
