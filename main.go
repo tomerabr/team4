@@ -11,11 +11,13 @@ import (
 
 )
 
+var DB_TYPE = "mysql"
+var DB_URL  = "team4@team4-mysql-db:Aa123456123456@tcp(team4-mysql-db.mysql.database.azure.com:3306)/team4"
+
 func main() {
     fmt.Println("hello world!")
 
-    db, err := sql.Open("mysql", 
-        "team4@team4-mysql-db:Aa123456123456@tcp(team4-mysql-db.mysql.database.azure.com:3306)/team4")
+    db, err := sql.Open(DB_TYPE, DB_URL)
     if err != nil {
         panic(err)
     }
