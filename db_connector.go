@@ -52,7 +52,7 @@ func Insert(table_name string, cols []string, values []string, db *sql.DB) strin
 func makeValueSetString(cols []string, newVals []string) string {
 	valueSetList = make([]string, len(cols))
 	for _, i := range cols {
-		set_str := cols[i] + " = " newVals[i])
+		set_str := cols[i] + " = " + newVals[i])
 		append(valueSetList, set_str)
 	}
 	valuesSetStr := strings.Join(set_str, ", ")
